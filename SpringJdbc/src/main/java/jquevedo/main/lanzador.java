@@ -1,4 +1,4 @@
-package main;
+package jquevedo.main;
 
 import java.util.List;
 import java.lang.reflect.Method;
