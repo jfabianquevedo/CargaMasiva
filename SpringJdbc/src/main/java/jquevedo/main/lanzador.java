@@ -27,7 +27,7 @@ public class lanzador {
 		ArrayList<balanceDao> listBalances = new ArrayList<balanceDao>();
 //		HashMap<String, BigDecimal> listPartidas = new HashMap<String, BigDecimal>();
 
-		for (int i = 0; i <1000; i++) {
+		for (int i = 0; i < 5000; i++) {
 			balanceDao balDao = new balanceDao();
 			balDao.setNombre(i + "_balance");
 //			balDao.setNombre(i+"12345");
@@ -45,15 +45,19 @@ public class lanzador {
 //			conexion.guardar(listBalances);
 //			conexion.guardarBatchTemplate(listBalances);
 			listBalances = conexion.guardarBatchSimpleInsert(listBalances);
-			conexion.guardarPartidasPS(listBalances);
-
 			long end = System.currentTimeMillis();
-			System.out.println("tiempo Ejecucion: " + TimeUnit.MILLISECONDS.toSeconds(end - start));
+			System.out
+					.println("tiempo Ejecucion insertando inf basica: " + TimeUnit.MILLISECONDS.toSeconds(end - start));
+			long start1 = System.currentTimeMillis();
+			conexion.guardarPartidasPS(listBalances);
+//			conexion.guardarPartidasBatch(listBalances);
+			long end1 = System.currentTimeMillis();
+			System.out
+					.println("tiempo Ejecucion insertanto partidas: " + TimeUnit.MILLISECONDS.toSeconds(end1 - start1));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	
 }

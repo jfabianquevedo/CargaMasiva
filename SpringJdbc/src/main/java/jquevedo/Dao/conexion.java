@@ -112,9 +112,8 @@ public class conexion {
 		String sql = "insert into partidas(id_balance,part_cod,pat_val) values(?,?,?)";
 		con = conexion.getConnection();
 		PreparedStatement ps = con.prepareStatement(sql);
-
+		int counter = 0;
 		for (balanceDao balance : listPartidas) {
-
 			HashMap<String, BigDecimal> part = crearPartidasCargar(balance);
 			for (String key : part.keySet()) {
 				BigDecimal value = (BigDecimal) part.get(key);
@@ -123,9 +122,15 @@ public class conexion {
 				ps.setBigDecimal(3, value);
 				ps.addBatch();
 			}
-
+			counter++;
 		}
-		ps.executeBatch();
+		if (counter == 1000) {
+			ps.executeBatch();
+			counter = 0;
+		}
+		if (counter > 0) {
+			ps.executeBatch();
+		}
 
 	}
 
